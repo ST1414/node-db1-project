@@ -6,27 +6,36 @@ const getAll = async () => {
 }
 
 const getById = async id => {
+  // select * from accounts where id = 1;
   const account = await db('accounts')
     .where('id', id);
   return (account);
 }
 
 const create = async account => {
-  console.log('CREATE');
+  // insert into accounts (name, budget) values ('terry', '100');
   const newAccountId = await db('accounts')
     .insert(account);
-  return newAccountId;
+  const newAccount = await getById(newAccountId);
+  return newAccount;
 }
 
 const updateById = async (id, account) => {
-  console.log('UPDATE');
-  return ({ message: 'UPDATE'});
+  // update accounts set name = 'hugh', budget = 1919 where id = 15;
+  await db('accounts')
+    .update(account)
+    .where('id', id);
+  const updatedAccount = getById(id);
+  return updatedAccount;
   
 }
 
 const deleteById = async id => {
-  console.log('DELETE');
-  return ({ message: 'DELETE'});
+  const deletedAccount = getById(id);
+  await db('accounts')
+    .delete()
+    .where('id', id);
+  return deletedAccount;
 }
 
 module.exports = {
