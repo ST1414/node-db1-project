@@ -3,7 +3,7 @@ const Account = require('./accounts-model');
 exports.checkAccountPayload = (req, res, next) => {
   console.log('*** Check Acct Payload ***')
   
-  if (!req.body.name || !req.body.budget){
+  if (req.body.name === undefined || req.body.budget === undefined){
     res.status(400).json({ message: 'name and budget are required'});
   }
   else if (typeof req.body.name !== 'string'){
@@ -38,7 +38,7 @@ exports.checkAccountNameUnique = (req, res, next) => {
       if (response.length === 0) {
         next();
       } else {
-        res.status(400).json({ error: 'that name is taken'})
+        res.status(400).json({ message: 'that name is taken'})
       }
     })
     .catch(error => {
@@ -57,7 +57,7 @@ exports.checkAccountNameUnique = (req, res, next) => {
       if (response){ 
         next();
       } else {
-        res.status(404).json({ error: 'account not found'})
+        res.status(404).json({ message: 'account not found'})
       }
     })
     .catch( error => {

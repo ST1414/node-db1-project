@@ -13,7 +13,6 @@ router.get('/', async (req, res, next) => {
 })
 
 
-// ######## WORKING #############
 router.get('/:id', checkAccountId, async (req, res, next) => {
   // returns an account by the given id.
   try {
@@ -38,7 +37,7 @@ router.post('/', checkAccountPayload, checkAccountNameUnique, async (req, res, n
 })
 
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', checkAccountId, checkAccountPayload, checkAccountNameUnique,async (req, res, next) => {
   // returns the updated account
   // trim white space before sending
   try {
@@ -50,7 +49,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', checkAccountId, async (req, res, next) => {
   // returns the deleted account
   try {
     const deletedAccount = await Account.deleteById(req.params.id);
@@ -59,6 +58,7 @@ router.delete('/:id', async (req, res, next) => {
     next(error);
   }
 })
+
 
 router.use((err, req, res, next) => { // eslint-disable-line
   console.log('ERROR HANDLING')
